@@ -1,0 +1,24 @@
+name: Create Pull Request
+
+on:
+  push:
+    branches-ignore:
+      - master
+
+jobs:
+  create-pull-request:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref_name }}
+          base: master
+          title: "PR Automático do branch ${{ github.ref_name }}"
+          body: "Este PR foi criado automaticamente a partir de um push no branch `${{ github.ref_name }}`."
+          draft: false
