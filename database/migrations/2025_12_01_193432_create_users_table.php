@@ -6,18 +6,14 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->text('name');
-            $table->text('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->foreignId('person_id')->constrained('person')->onDelete('cascade');
+            $table->string('username');
+            $table->string('email')->unique();
             $table->string('password');
-            $table->timestamps();
         });
 
         Schema::create('sessions', function (Blueprint $table) {
@@ -30,9 +26,6 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('users');
